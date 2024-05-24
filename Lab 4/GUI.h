@@ -28,5 +28,5 @@ int sideControl(GUI *self);
 int increasePulse(int x);
 void updateGUI(GUI *x);
 int save(GUI *x);
-void LCD_Init();
+void LCD_Init();					//INITITITIT
  
