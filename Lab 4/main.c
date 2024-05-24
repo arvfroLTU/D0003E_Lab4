@@ -31,3 +31,4 @@ pulseGen pg2 = initpulseGen(1, 4, &op);
 INSTALL(&pg1, plusPulse, IRQ_PCINT0);
 INSTALL(&pg1, outputPulse, IRQ_PCINT1);
 return TINYTIMBER(NULL, NULL, NULL);
+}
