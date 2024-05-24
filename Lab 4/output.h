@@ -7,24 +7,20 @@
  */ 
 
 #include "tinytimber.h"
-#include "output.h"
-#include "pulseGen.h"
-#include <stdbool.h>
+
+#ifndef OUTPUTHANDLER_H
+#define OUTPUTHANDLER_H
 
 
 typedef struct {
 	Object super;
-	int target;
-	int frequency;
-	bool state;
+	int state;
 } output;
 
-#define initOutput() {0, 10000, false}
-	
-void oscilloscope(output *self, pulseGen *pulsar);
-void genPulse(output *p, pulseGen *pulsar);
-void changePulse(output *p);
-void genPulse(output *p, int frequency);
-void genPulse4(output *p, int frequency);
-void genPulse6(output *p, int frequency);
 
+#define initOutput(on){initObject(), on}
+	
+void pinPulse(output *self, int x);
+void cutPulse(output *self, int x);
+
+#endif /* OUTPUTHANDLER_H */

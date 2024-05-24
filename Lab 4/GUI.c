@@ -26,7 +26,7 @@ void LCD_Init()
 	CLKPR = 0x00;
 
 	LCDCRB = (1<<LCDCS) | (1<<LCDMUX1)| (1<<LCDMUX0) | (1<<LCDPM2)| (1<<LCDPM1)| (1<<LCDPM0);						/* 1/3 Bias and 1/4 duty, SEG0:SEG24 is used as port pins CLEAR */
-	LCDFRR = (1<<LCDCD2) | (1<<LCDCD1) | (1<<LCDCD0)|(0<<LCDPS2) | (0<<LCDPS1) | (0<<LCDPS0);						/* Using 16 as prescaler selection and 8 as LCD Clock Divide ÁND gives a frame rate of 8.1  Hz  CHECK DESIRED FRAMERATE*/
+	LCDFRR = (1<<LCDCD2) | (1<<LCDCD1) | (1<<LCDCD0)|(0<<LCDPS2) | (0<<LCDPS1) | (0<<LCDPS0);						/* Using 16 as prescaler selection and 8 as LCD Clock Divide ï¿½ND gives a frame rate of 8.1  Hz  CHECK DESIRED FRAMERATE*/
 	LCDCCR =  (1<<LCDCC3) | (1<<LCDCC2) | (1<<LCDCC1)|(1<<LCDCC0) | (0<<LCDDC2) | (0<<LCDDC1)|(0<<LCDDC0);			/* Set segment drive time to 300 ms and output voltage to 3.35 V CLEAR */
 	LCDCRA = (1<<LCDEN) |(0<<LCDBL)|(1<<LCDAB)|(0<<LCDIE);															/* Enable LCD, low power waveform and no interrupt enabled, no blanking */
 																												
@@ -99,19 +99,6 @@ void swap(GUI *self){
 		LCDDR18 = 0x1;
 	}
 }
-	
-}
-
-int decreasePulse(int pulse)
-{
-	pulse-= 1;
-	return pulse;
-}
-int increasePulse(int pulse)
-{
-	pulse+= 1;
-	return pulse;
-}
 
 int save(GUI *self)
 {
@@ -137,51 +124,4 @@ int save(GUI *self)
 	}
 }
 
-
-void updateGUI(GUI *self){
-	clearChar1(self->side);
-	printAt(self->frequency, self->side);
-}
-
-
-pulseControl(GUI *self){
-
-	if (!(PINB & (1 << 4)))
-	{
-		save(self);
-		updateGUI(self);
-	}
-	else if (!(PINB & (1 << 6)))
-	{
-		self->frequency = increasePulse(self->frequency);
-		updateGUI(self);
-	}
-	else if (!(PINB & (1 << 7)))
-	{
-		self->frequency = decreasePulse(self->frequency);
-		updateGUI(self);
-	}
-}
-
-sideControl(GUI *self){
-	if (!(PINE & (1 << 2)))
-	{
-		if (self->side == 4)
-		swap(self);
-	}
-	else if (!(PINE & (1 << 3)))
-	{
-		if (self->side == 0)
-		swap(self);
-	}
-
-}
-void inputHandler(GUI *self)
-{
-	LCD_Init();
-	writeLong(self);
-	swap(self);
-	writeLong(self);
-	while(1){};	
-}
 
