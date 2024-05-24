@@ -21,6 +21,7 @@ PCMSK1 = (1<<PCINT15)|(1<<PCINT14)|(1<<PCINT13)|(1<<PCINT12)|(1<<PCINT11)|(1<<PC
 PCMSK0 =(1<<PCINT7)|(1<<PCINT6)|(1<<PCINT5)|(1<<PCINT4)|(1<<PCINT3)|(1<<PCINT2)|(1<<PCINT1)|(1<<PCINT0);
 EIMSK |= (1 << PCIE1) | (1 << PCIE0);
 
+
 output op = initOutput(0);				//initialize output with state 0
 
 pulseGen pg1 = initpulseGen(0,3, &op);
@@ -30,12 +31,3 @@ pulseGen pg2 = initpulseGen(1, 4, &op);
 INSTALL(&pg1, plusPulse, IRQ_PCINT0);
 INSTALL(&pg1, outputPulse, IRQ_PCINT1);
 return TINYTIMBER(NULL, NULL, NULL);
-
-
-//INSTALL(&graphics,pulseControl(&graphics), IRQ_PCINT0);   //assumes that pcint0 is responsible for up down push
-//INSTALL(&graphics sideControl(&graphics), IRQ_PCINT1);
-//return TINYTIMBER(&graphics, inputHandler(&graphics), val);
-
-}
-
-
