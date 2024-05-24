@@ -23,23 +23,23 @@
 void  main(){
 int j = 1;
 GUI graphics = initGUI();
-//output op = initOutput();
-//pulseGen pg1 = initpulseGen(0,1000);
-//pulseGen pg2 = initpulseGen(4, 500)
+output op = initOutput();
+pulseGen pg1 = initpulseGen(0,1000);
+pulseGen pg2 = initpulseGen(4, 500)
 
 
 //PORTE &= ~(1 << self->target);
 
 
-//ociloscope(&op);
+oscilloscope(&op);
 inputHandler(&graphics);
-//pulseGen left = initpulseGen(4, 1000);
-//pulseGen right = initpulseGen(6, 1000);
+pulseGen left = initpulseGen(4, 1000);
+pulseGen right = initpulseGen(6, 1000);
 
-//genPulse(&op, 0);
-//INSTALL(&obj1, meth1, IRQ_1);
-//INSTALL(&obj2, meth2, IRQ_2);
-//return TINYTIMBER(&output, genPulse(&op, 0), (&op, 0));
+genPulse(&op, 0);
+INSTALL(&obj1, meth1, IRQ_1);
+INSTALL(&obj2, meth2, IRQ_2);
+return TINYTIMBER(&output, genPulse(&op, 0), (&op, 0));
 
 
 //INSTALL(&graphics,pulseControl(&graphics), IRQ_PCINT0);   //assumes that pcint0 is responsible for up down push

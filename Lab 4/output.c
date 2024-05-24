@@ -9,7 +9,7 @@
 #include "tinytimber.h"
 //#include "pulseGen.h"
 #include <avr/io.h>
-/*
+
 
 void changePulse(output *self) 
 {
@@ -66,6 +66,7 @@ void genPulse6(output *self, int frequency)
 	//AFTER(MSEC(pulses), genPulse, self, 0); //requeues the function
 }
 
+*/
 
 void oscilloscope(output *self, pulseGen *pulsar)
 {
@@ -74,11 +75,10 @@ void oscilloscope(output *self, pulseGen *pulsar)
 	if((pulsar ->target) == 4){
 		genPulse4(self, freq);
 	}
-	else if((pulsar->target) ==6))
+	else if((pulsar->target) ==6)
 	{
 		genPulse6(self, freq);
 	}
 	
 	
 }
-*/
