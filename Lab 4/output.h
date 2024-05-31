@@ -9,9 +9,8 @@
 #include <avr/io.h>
 #include "tinytimber.h"
 
-#ifndef OUTPUTHANDLER_H
-#define OUTPUTHANDLER_H
-
+#ifndef FUNCTIONS_J
+#define FUNCTIONS_J
 
 typedef struct {
 	Object super;
@@ -24,4 +23,4 @@ typedef struct {
 void pinPulse(output *self, int x);
 void cutPulse(output *self, int x);
 
-#endif /* OUTPUTHANDLER_H */
+#endif /* FUNCTIONS_J */

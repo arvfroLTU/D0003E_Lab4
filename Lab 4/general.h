@@ -14,11 +14,13 @@
 
 typedef struct {
 	Object super;
-	pulseGen *pg;
+	pulseGen *pg1;
+	pulseGen *pg2;
 } General;
 
-#define initGeneral(pg){initObject(), pg}
+#define initGeneral(pg1, pg2){initObject(), pg1, pg2}
 
+void switchSides(General *self);
 void UpDownPushBuffer(General *self);
 void LRBuffer(General *self);
 void start(General *self);

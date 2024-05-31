@@ -10,24 +10,45 @@
 #include "pulseGen.h"
 #include "output.h"
 
+pulseGen *ActiveObj;
+
 void UpDownPushBuffer(General *self)
 {
 	if (!(PINB & (1 << 6))){
-		ASYNC(self->pg, plusPulse, 0);
+		ASYNC(ActiveObj, plusPulse, 0);
 	}
 	
 	else if (!(PINB & (1 << 7))){
-		ASYNC(self->pg, minusPulse, 0);
+		ASYNC(ActiveObj, minusPulse, 0);
 	}
 	
 	else if (!(PINB & (1 << 4))){
-		ASYNC(self->pg, toZero, 0);
+		ASYNC(ActiveObj, toZero, 0);
 	}
 }
 
+void switchSides(General *self){
+	if (ActiveObj == self->pg1)
+		ActiveObj = self->pg2;
+	
+	else if	(ActiveObj ==self->pg2)
+		ActiveObj = self->pg1;
+}
+
 void LRBuffer(General *self){
+		if (!(PINE & (1 << 2)))
+		{
+				ActiveObj = self->pg2;
+		}
+		else if (!(PINE & (1 << 3)))
+		{
+				ActiveObj = self->pg1;
+		}
+			
 }
 
 void start(General *self){
-	ASYNC(self->pg, outputPulse, 0);
+	ActiveObj = self->pg1;
+	ASYNC(self->pg1, outputPulse, 0);
+	ASYNC(self->pg2, outputPulse, 0);
 }

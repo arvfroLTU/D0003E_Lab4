@@ -15,7 +15,7 @@
 typedef struct {
 	Object super; 
 	int target; // pin i of socket J405 can be either 0 for pin4 or 1 for pin6
-	float frequency; //  pulse interval if that's easier
+	int frequency; //  pulse interval if that's easier
 	int onOff; // this exists so that the frequency can be stored while outputting 0. 1 is on
 	output *op;		
 } pulseGen;
@@ -27,6 +27,7 @@ void  plusPulse(pulseGen *self);
 void  minusPulse(pulseGen *self);
 void  toZero(pulseGen *self);
 void  outputPulse(pulseGen *self);
+
 
 #endif // FUNCTIONS_H
 

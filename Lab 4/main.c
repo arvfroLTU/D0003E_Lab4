@@ -24,10 +24,11 @@ EIMSK |= (1 << PCIE1) | (1 << PCIE0);
 
 
 output op = initOutput(0);				//initialize output with state 0
-pulseGen pg1 = initpulseGen(0, 0.5 , &op);
+pulseGen pg1 = initpulseGen(0, 1, &op);
 pulseGen pg2 = initpulseGen(1, 4, &op);
-General G = initGeneral(&pg1);
+General G = initGeneral(&pg1, &pg2);
 
+INSTALL(&G, LRBuffer, IRQ_PCINT0);
 INSTALL(&G, UpDownPushBuffer, IRQ_PCINT1);
 return TINYTIMBER(&G, start, 0);
 }
