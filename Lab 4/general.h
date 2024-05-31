@@ -11,11 +11,14 @@
 #include <avr/io.h>
 #include "tinytimber.h"
 #include "pulseGen.h"
+#include "GUI.h"
+
 
 typedef struct {
 	Object super;
 	pulseGen *pg1;
 	pulseGen *pg2;
+	GUI *graphics;
 } General;
 
 #define initGeneral(pg1, pg2){initObject(), pg1, pg2}

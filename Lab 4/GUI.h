@@ -7,6 +7,11 @@
  */ 
 #include "tinytimber.h"
 #include <stdbool.h>
+#include "pulseGen.h"
+#include "General.h"
+
+#ifndef FUNCTIONS_K
+#define FUNCTIONS_K
 
 typedef struct {
 	Object super;				//2 variabler?
@@ -14,10 +19,13 @@ typedef struct {
 	int side; // left = 0 or right 4	
 	int saved1;
 	int saved2;
-	
+	pulseGen *pg1;
+	pulseGen *pg2;
+	General *G1;	
 } GUI;
 
-#define initGUI() {3, 3, 25, 0}
+#define initGUI(pg1, pg2, g){initObject(), 1, 0, 0, 0, pg1, pg2, g}
+	
 void arithmetic(GUI *x); // + och - på frekvensens hz
 void swap(GUI *x); //switches active generators
 void writeLong(GUI *x);
@@ -29,4 +37,6 @@ int increasePulse(int x);
 void updateGUI(GUI *x);
 int save(GUI *x);
 void LCD_Init();					//INITITITIT
+
+#endif // FUNCTIONS_K
  
