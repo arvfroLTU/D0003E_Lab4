@@ -6,6 +6,7 @@
  *  Author: arvid
  */ 
 
+#include <avr/io.h>
 #include "tinytimber.h"
 
 #ifndef OUTPUTHANDLER_H

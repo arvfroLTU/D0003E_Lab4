@@ -11,6 +11,7 @@
 #include "tinytimber.h"
 #include "output.h"
 #include "pulseGen.h"
+#include "General.h"
 
 
 int main(void){
@@ -23,12 +24,10 @@ EIMSK |= (1 << PCIE1) | (1 << PCIE0);
 
 
 output op = initOutput(0);				//initialize output with state 0
-
-pulseGen pg1 = initpulseGen(0,3, &op);
+pulseGen pg1 = initpulseGen(0, 0.5 , &op);
 pulseGen pg2 = initpulseGen(1, 4, &op);
+General G = initGeneral(&pg1);
 
-
-INSTALL(&pg1, plusPulse, IRQ_PCINT0);
-INSTALL(&pg1, outputPulse, IRQ_PCINT1);
-return TINYTIMBER(NULL, NULL, NULL);
+INSTALL(&G, UpDownPushBuffer, IRQ_PCINT1);
+return TINYTIMBER(&G, start, 0);
 }

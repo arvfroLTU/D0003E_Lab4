@@ -10,18 +10,7 @@
 
 void pinPulse(output *self, int x)
 {
-	
-	if (self->state == 0)
-	{
-		if (x ==0){
-			PORTE = (1<<PE4);
-		}
-		else if (x ==1){
-			PORTE = (1<<PE6);
-		}
-		self->state =1;
-	}
-	else
+	 if (self->state ==1)
 	{
 		if (x ==0)
 			PORTE = (0<<PE4);
@@ -29,6 +18,16 @@ void pinPulse(output *self, int x)
 			PORTE = (0<<PE6);
 			
 		self->state = 0;
+	}
+	else if (self->state == 0)
+	{
+		if (x ==0){
+			PORTE = (1<<PE4);
+		}
+		if (x ==1){
+			PORTE = (1<<PE6);
+		}
+		self->state =1;
 	}
 }
 

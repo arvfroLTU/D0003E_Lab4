@@ -136,6 +136,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="General.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="general.h">
       <SubType>compile</SubType>
     </Compile>
