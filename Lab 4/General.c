@@ -11,41 +11,62 @@
 #include "output.h"
 #include "GUI.h"
 
-pulseGen *ActiveObj;
-
-void start(General *self){
+/*
+void start(General *self)
+{
+	ASYNC(self->graphics, LCD_Init, 0 );
 	ActiveObj = self->pg1;
 	ASYNC(self->pg1, outputPulse, 0);
 	ASYNC(self->pg2, outputPulse, 0);
-	ASYNC(self->graphics, updateGUI, 0);
+	
 }
-
+*/
 void UpDownPushBuffer(General *self)
 {
-	if (!(PINB & (1 << 6))){
-		ASYNC(ActiveObj, plusPulse, 0);
+	if (!(PINB & (1 << 6)))
+	{
+		ASYNC(self->Active, plusPulse, 0);
+		self->graphics->frequency = self->Active->frequency;
+		//self->graphics->frequency = self->graphics->frequency + 1;
+		ASYNC(self->graphics, updateGUI, 0);
 	}
 	
-	else if (!(PINB & (1 << 7))){
-		ASYNC(ActiveObj, minusPulse, 0);
+	else if (!(PINB & (1 << 7)))
+	{
+		ASYNC(self->Active, minusPulse, 0);
+		self->graphics->frequency = self->Active->frequency;
+		//self->graphics->frequency = self->graphics->frequency - 1;
+		ASYNC(self->graphics, updateGUI, 0);
 	}
 	
-	else if (!(PINB & (1 << 4))){
-		ASYNC(ActiveObj, toZero, 0);
+	else if (!(PINB & (1 << 4)))
+	{
+		//ASYNC(ActiveObj, toZero, 0);
+		//self->graphics->frequency = ActiveObj->frequency;
+		//ASYNC(self->graphics, updateGUI, 0);
 	}
 }
 
 void LRBuffer(General *self){
 
-		if (!(PINE & (1 << 2)) && ActiveObj == self->pg2)
-		{
-				ActiveObj = self->pg1;						//Towards MONITOR IS PG2 (Left)
+		if (!(PINE & (1 << 2)))
+		{	
+			self->Active = self->pg1;						//Towards MONITOR IS PG2 (Left)
+			self->graphics->side = 0;
+			self->graphics->frequency =self->pg1->frequency;
+			LCDDR13 = 0x0;
+			LCDDR18 = 0x1;
+			ASYNC(self->graphics, updateGUI, 0);
 
 		}
-		else if (!(PINE & (1 << 3)) && ActiveObj == self->pg1)
-		{
-				ActiveObj = self->pg2;					// Away from MONITOR IS PG1 (Right)
+		else if (!(PINE & (1 << 3)))
+		{	
+			self->Active = self->pg2;					// Away from MONITOR IS PG1 (Right)
+			self->graphics->frequency =self->pg2->frequency;
+			LCDDR13 = 0x1;
+			LCDDR18 = 0x0;
+			self->graphics->side = 4;
+			ASYNC(self->graphics, updateGUI, 0);
 
-		}
-			
+		}	
 }

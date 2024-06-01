@@ -1,24 +1,17 @@
-/*
- * GUI.c
- *
- * Created: 2024-02-23 10:25:16
- *  Author: arvid
- */ 
-
 #include <avr/io.h>
+#include <stdint-gcc.h>
 #include <stdio.h>
 #include <math.h>                    //used for floor (not used right now...)
 #include <stdbool.h>                //used for the is_prime check
 #include <unistd.h>
-#include <avr/interrupt.h>
 
 #include "GUI.h"
 #include "tinytimber.h"
+#include "output.h"
 
 
 int *point[16] = {&LCDDR0, &LCDDR1, &LCDDR2, &LCDDR3, &LCDDR5, &LCDDR6, &LCDDR7, &LCDDR8, &LCDDR10, &LCDDR11, &LCDDR12, &LCDDR13, &LCDDR15, &LCDDR16, &LCDDR17, &LCDDR18};
 unsigned int num[10][4] = { {0x1, 0x5, 0x5, 0x1}, {0x0, 0x1, 0x1, 0x0}, {0x1, 0x1, 0xe, 0x1},{0x1, 0x1, 0xb, 0x1},{0x0, 0x5, 0xb, 0x0}, {0x1, 0x4, 0xb, 0x1}, {0x1, 0x4, 0xf, 0x1},{0x1, 0x1, 0x1, 0x0}, {0x1, 0x5, 0xf, 0x1},{0x1, 0x5, 0xb, 0x1} };
-
 
 void LCD_Init()
 {
@@ -26,13 +19,10 @@ void LCD_Init()
 	CLKPR = 0x00;
 
 	LCDCRB = (1<<LCDCS) | (1<<LCDMUX1)| (1<<LCDMUX0) | (1<<LCDPM2)| (1<<LCDPM1)| (1<<LCDPM0);						/* 1/3 Bias and 1/4 duty, SEG0:SEG24 is used as port pins CLEAR */
-	LCDFRR = (1<<LCDCD2) | (1<<LCDCD1) | (1<<LCDCD0)|(0<<LCDPS2) | (0<<LCDPS1) | (0<<LCDPS0);						/* Using 16 as prescaler selection and 8 as LCD Clock Divide �ND gives a frame rate of 8.1  Hz  CHECK DESIRED FRAMERATE*/
+	LCDFRR = (1<<LCDCD2) | (1<<LCDCD1) | (1<<LCDCD0)|(0<<LCDPS2) | (0<<LCDPS1) | (0<<LCDPS0);						/* Using 16 as prescaler selection and 8 as LCD Clock Divide ÁND gives a frame rate of 8.1  Hz  CHECK DESIRED FRAMERATE*/
 	LCDCCR =  (1<<LCDCC3) | (1<<LCDCC2) | (1<<LCDCC1)|(1<<LCDCC0) | (0<<LCDDC2) | (0<<LCDDC1)|(0<<LCDDC0);			/* Set segment drive time to 300 ms and output voltage to 3.35 V CLEAR */
 	LCDCRA = (1<<LCDEN) |(0<<LCDBL)|(1<<LCDAB)|(0<<LCDIE);															/* Enable LCD, low power waveform and no interrupt enabled, no blanking */
-																												
 }
-
-
 
 void writeChar(char ch, int pos)
 {
@@ -85,20 +75,31 @@ void printAt(long num, int pos) {
 void writeLong(GUI *self){
 	printAt(self->frequency, self->side);
 }
-
-
+/*
 void swap(GUI *self){
 	if (self->side == 0){
 		self->side=4;
-		LCDDR13 = 0x1;
-		LCDDR18 = 0x0;
-	}	
+		//LCDDR13 = 0x1;
+		//LCDDR18 = 0x0;
+	}
 	else{
 		self->side =0 ;
-		LCDDR13 = 0x0;
-		LCDDR18 = 0x1;
+		//LCDDR13 = 0x0;
+		//LCDDR18 = 0x1;
 	}
 }
+
+int decreasePulse(int pulse)
+{
+	pulse-= 1;
+	return pulse;
+}
+int increasePulse(int pulse)
+{
+	pulse+= 1;
+	return pulse;
+}
+*/
 
 int save(GUI *self)
 {
@@ -110,18 +111,40 @@ int save(GUI *self)
 			self->frequency = 0;
 		}
 		else
-			self->frequency = self->saved1;
+		self->frequency = self->saved1;
 	}
-		if(self->side == 4)
+	if(self->side == 4)
+	{
+		if (self->frequency != 0)
 		{
-			if (self->frequency != 0)
-				{
-				self->saved2 = self->frequency;
-				self->frequency = 0;
-				}
-			else
-				self->frequency = self->saved2;
+			self->saved2 = self->frequency;
+			self->frequency = 0;
+		}
+		else
+		self->frequency = self->saved2;
 	}
 }
+
+void updateGUI(GUI *self){
+	if (self->frequency < 0)
+		self->frequency = 0;
+	if (self->frequency > 99)
+		self->frequency = 99;
+		
+	clearChar1(self->side);
+	printAt(self->frequency, self->side);
+}
+
+void start(GUI *self)
+{
+	updateGUI(self);
+	outputPulse(self->pg1);
+	//outputPulse(self->pg2);
+	//ASYNC(self->pg1, outputPulse, 0);
+	//ASYNC(self->pg2, outputPulse, 0);
+	
+	
+}
+
 
 

@@ -8,7 +8,7 @@
 #include "tinytimber.h"
 #include <stdbool.h>
 #include "pulseGen.h"
-#include "General.h"
+
 
 #ifndef FUNCTIONS_K
 #define FUNCTIONS_K
@@ -21,11 +21,11 @@ typedef struct {
 	int saved2;
 	pulseGen *pg1;
 	pulseGen *pg2;
-	General *G1;	
 } GUI;
 
-#define initGUI(pg1, pg2, g){initObject(), 1, 0, 0, 0, pg1, pg2, g}
-	
+#define initGUI(pg1, pg2){initObject(), 1, 0, 0, 0, pg1, pg2}
+
+void start (GUI *self);
 void arithmetic(GUI *x); // + och - på frekvensens hz
 void swap(GUI *x); //switches active generators
 void writeLong(GUI *x);

@@ -30,14 +30,17 @@ void  minusPulse(pulseGen *self){
 
 void  toZero( pulseGen *self){
 	if (self->onOff ==1){
+		self->saved = self->frequency;
+		self->frequency = 0;
 		self->onOff = 0;
 	}
 	else if (self->onOff ==0){
+		self->frequency = self->saved;
 		self->onOff =1;
 	}
 }
 
-
+/*
 void  outputPulse(pulseGen *self){
 	if (self->onOff ==1){
 		j = self->target;
@@ -50,3 +53,11 @@ void  outputPulse(pulseGen *self){
 		
 	}
 }
+*/
+
+void  outputPulse(pulseGen *self){
+	
+		pinPulse(self->op, self->target);				 //output frequency to oscilloscope
+		AFTER(((SEC(1)) /(self->frequency) /2), self, outputPulse, 0); //waits for  frequency period before repeating output
+}
+		

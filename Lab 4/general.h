@@ -19,13 +19,14 @@ typedef struct {
 	pulseGen *pg1;
 	pulseGen *pg2;
 	GUI *graphics;
+	pulseGen *Active;
 } General;
 
-#define initGeneral(pg1, pg2){initObject(), pg1, pg2}
+#define initGeneral(pg1, pg2, g){initObject(), pg1, pg2, g, pg1}
 
 void switchSides(General *self);
 void UpDownPushBuffer(General *self);
 void LRBuffer(General *self);
-void start(General *self);
+//void start(General *self);
 
 #endif // FUNCTIONS_I
