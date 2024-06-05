@@ -139,7 +139,7 @@ void start(GUI *self)
 {
 	updateGUI(self);
 	outputPulse(self->pg1);
-	//outputPulse(self->pg2);
+	outputPulse(self->pg2);
 	//ASYNC(self->pg1, outputPulse, 0);
 	//ASYNC(self->pg2, outputPulse, 0);
 	

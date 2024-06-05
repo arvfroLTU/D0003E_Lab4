@@ -8,28 +8,23 @@
 #include "output.h"
 #include <avr/io.h>
 
+
+
 void pinPulse(output *self, int x)
 {
-	 if (self->state ==1)
+	//Look over
+	
+	if (x == 0)
 	{
-		if (x ==0)
-			PORTE = (0<<PE4);
-		else if (x ==1)
-			PORTE = (0<<PE6);
-			
-		self->state = 0;
+		PORTE ^= (1 << 4);
 	}
-	else if (self->state == 0)
+	if (x == 1)
 	{
-		if (x ==0){
-			PORTE = (1<<PE4);
-		}
-		if (x ==1){
-			PORTE = (1<<PE6);
-		}
-		self->state =1;
+		PORTE ^= (1 << 6);
 	}
+
 }
+
 
 void cutPulse(output *self, int x){
 	if (x == 0){
@@ -38,4 +33,5 @@ void cutPulse(output *self, int x){
 	else if (x == 1){
 		PORTE = (0<<PE6);
 	}
+
 }
