@@ -12,7 +12,7 @@
 
 void pinPulse(output *self, int x)
 {
-	//Look over
+	// Look over
 	
 	if (x == 0)
 	{
@@ -28,10 +28,12 @@ void pinPulse(output *self, int x)
 
 void cutPulse(output *self, int x){
 	if (x == 0){
-		PORTE = (0<<PE4);
+		PORTE |= ( 0<< 4);
+
+		
 	}
 	else if (x == 1){
-		PORTE = (0<<PE6);
+		PORTE |= (0 << 6);
 	}
-
+	
 }

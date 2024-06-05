@@ -16,13 +16,13 @@ typedef struct {
 	Object super; 
 	int target; // pin i of socket J405 can be either 0 for pin4 or 1 for pin6
 	int frequency; //  pulse interval if that's easier
-	int onOff; // this exists so that the frequency can be stored while outputting 0. 1 is on
 	int saved;
+	int pulseCut;
 	output *op;		
 } pulseGen;
 
 
-#define initpulseGen(trgt, freq, op){initObject(), trgt, freq, 1, 0,  op}
+#define initpulseGen(trgt, freq, op){initObject(), trgt, freq, 1, 0, 0, op}
 
 void  plusPulse(pulseGen *self);
 void  minusPulse(pulseGen *self);

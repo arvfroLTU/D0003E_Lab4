@@ -29,35 +29,20 @@ void  minusPulse(pulseGen *self){
 }
 
 void  toZero( pulseGen *self){
-	if (self->onOff ==1){
-		self->saved = self->frequency;
-		self->frequency = 0;
-		self->onOff = 0;
+	if (self->pulseCut == 0){
+		self->pulseCut = 1;
 	}
-	else if (self->onOff ==0){
-		self->frequency = self->saved;
-		self->onOff =1;
+	else if (self->pulseCut ==1){
+		self->pulseCut =0;
 	}
 }
-
-/*
-void  outputPulse(pulseGen *self){
-	if (self->onOff ==1){
-		j = self->target;
-		pinPulse(self->op, self->target);				 //output frequency to oscilloscope
-		AFTER(((SEC(1)) /(self->frequency) /2), self, outputPulse, 0); //waits for  frequency period before repeating output
-	}
-	else if (self->onOff == 0){
-		ASYNC(self->op, cutPulse, self->target);						//output 0 to oscilloscope
-		//AFTER(((SEC(1)) /(self->frequency) /2), self, outputPulse, 0);
-		
-	}
-}
-*/
 
 void  outputPulse(pulseGen *self){
 	
+	if (self->pulseCut == 0)
 		pinPulse(self->op, self->target);				 //output frequency to oscilloscope
-		AFTER(((SEC(1)) /(self->frequency) /2), self, outputPulse, 0); //waits for  frequency period before repeating output
+	else if (self->pulseCut == 1)
+		cutPulse(self->op, self->target);
+	AFTER(((SEC(1)) /(self->frequency) /2), self, outputPulse, 0); //waits for  frequency period before repeating output
 }
 		
