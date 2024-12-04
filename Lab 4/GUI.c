@@ -75,61 +75,15 @@ void printAt(long num, int pos) {
 void writeLong(GUI *self){
 	printAt(self->frequency, self->side);
 }
-/*
-void swap(GUI *self){
-	if (self->side == 0){
-		self->side=4;
-		//LCDDR13 = 0x1;
-		//LCDDR18 = 0x0;
-	}
-	else{
-		self->side =0 ;
-		//LCDDR13 = 0x0;
-		//LCDDR18 = 0x1;
-	}
-}
 
-int decreasePulse(int pulse)
-{
-	pulse-= 1;
-	return pulse;
-}
-int increasePulse(int pulse)
-{
-	pulse+= 1;
-	return pulse;
-}
-*/
-
-int save(GUI *self)
-{
-	if(self->side == 0)
-	{
-		if (self->frequency != 0)
-		{
-			self->saved1 = self->frequency;
-			self->frequency = 0;
-		}
-		else
-		self->frequency = self->saved1;
-	}
-	if(self->side == 4)
-	{
-		if (self->frequency != 0)
-		{
-			self->saved2 = self->frequency;
-			self->frequency = 0;
-		}
-		else
-		self->frequency = self->saved2;
-	}
-}
 
 void updateGUI(GUI *self){
-	if (self->frequency < 0)
+	if (self->frequency < 0){
 		self->frequency = 0;
-	if (self->frequency > 99)
+	}
+	if (self->frequency > 99){
 		self->frequency = 99;
+	}
 		
 	clearChar1(self->side);
 	printAt(self->frequency, self->side);
@@ -137,11 +91,9 @@ void updateGUI(GUI *self){
 
 void start(GUI *self)
 {
-	updateGUI(self);
-	outputPulse(self->pg1);
-	outputPulse(self->pg2);
-	//ASYNC(self->pg1, outputPulse, 0);
-	//ASYNC(self->pg2, outputPulse, 0);
+	printAt(self->frequency, self->side);
+	ASYNC(self->pg1, outputPulse, 0);
+	ASYNC(self->pg2, outputPulse, 0);
 	
 	
 }

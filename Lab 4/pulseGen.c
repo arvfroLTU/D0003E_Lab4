@@ -9,40 +9,55 @@
 #include "pulseGen.h"
 #include "output.h"
 
-int i = 0;
-int j = 0;
-int k = 1;
-
 
 void  plusPulse(pulseGen *self){
-	i++;
-	k++;
+if (self->frequency < 99){
 	self->frequency = self->frequency +1; 
+	}
 }
 
 void  minusPulse(pulseGen *self){
-	j++;
-	k--;
-	if (self->frequency > 1){
+	if (self->frequency > 0){
 		self->frequency = self->frequency -1;
 	}
 }
 
-void  toZero( pulseGen *self){
-	if (self->pulseCut == 0){
-		self->pulseCut = 1;
+void delayContPush(pulseGen *self){
+		if (!(PINB & (1 << 6)))							//Plus
+	{
+		plusPulse(self);
+		AFTER((SEC(1)/2), self,  delayContPush, 0);
 	}
-	else if (self->pulseCut ==1){
-		self->pulseCut =0;
+	
+	else if (!(PINB & (1 << 7)))
+	{
+		minusPulse(self);			//Minus		
+		AFTER(((SEC(1))/2), self,  delayContPush, 0);
 	}
+	else{
+		self->upDownPushFlag = 0;		//prevents several inputs entering if pressed rapidly
+	}
+	
 }
 
 void  outputPulse(pulseGen *self){
 	
-	if (self->pulseCut == 0)
+	if (self->frequency != 0){
 		pinPulse(self->op, self->target);				 //output frequency to oscilloscope
-	else if (self->pulseCut == 1)
+	}
+	else if (self->frequency == 0){
 		cutPulse(self->op, self->target);
-	AFTER(((SEC(1)) /(self->frequency) /2), self, outputPulse, 0); //waits for  frequency period before repeating output
+	}
+	AFTER(((SEC(1)) /(self->frequency) /2), self, outputPulse, 0); //periodically checks if given pg should re-emit signals by checking the pulseCut variable.
+	
+}
+
+void savePulse(pulseGen *self){
+	self->saved = self->frequency;
+	self->frequency = 0;
+	
+}
+void restorePulse(pulseGen *self){
+	self->frequency = self->saved;
 }
 		

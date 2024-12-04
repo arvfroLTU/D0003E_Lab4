@@ -35,7 +35,6 @@ int decreasePulse(int x);
 int sideControl(GUI *self);
 int increasePulse(int x);
 void updateGUI(GUI *x);
-int save(GUI *x);
 void LCD_Init();					//INITITITIT
 
 #endif // FUNCTIONS_K

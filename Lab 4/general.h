@@ -20,6 +20,7 @@ typedef struct {
 	pulseGen *pg2;
 	GUI *graphics;
 	pulseGen *Active;
+	int UpDownPushFlag; //prevents several inputs entering if pressed rapidly
 } General;
 
 #define initGeneral(pg1, pg2, g){initObject(), pg1, pg2, g, pg1}

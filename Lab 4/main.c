@@ -26,7 +26,7 @@ DDRE |= (1 << DDE4) | (1 << DDE6);
 
 
 output op = initOutput(0);				//initialize output with state 0
-pulseGen pg1 = initpulseGen(0, 1, &op);
+pulseGen pg1 = initpulseGen(0, 0, &op);
 pulseGen pg2 = initpulseGen(1, 4, &op);
 GUI	graphics = initGUI(&pg1, &pg2);
 General Gnrl = initGeneral(&pg1, &pg2, &graphics);

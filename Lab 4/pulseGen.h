@@ -18,16 +18,20 @@ typedef struct {
 	int frequency; //  pulse interval if that's easier
 	int saved;
 	int pulseCut;
+	int upDownPushFlag;
+	int print;
 	output *op;		
 } pulseGen;
 
 
-#define initpulseGen(trgt, freq, op){initObject(), trgt, freq, 1, 0, 0, op}
+#define initpulseGen(trgt, freq, op){initObject(), trgt, freq, 0, 0, 0, 0, op}
 
 void  plusPulse(pulseGen *self);
 void  minusPulse(pulseGen *self);
-void  toZero(pulseGen *self);
 void  outputPulse(pulseGen *self);
+void savePulse(pulseGen *self);
+void restorePulse(pulseGen *self);
+void delayContPush(pulseGen *self);
 
 
 #endif // FUNCTIONS_H
