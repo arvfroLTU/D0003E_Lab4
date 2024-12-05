@@ -19,24 +19,21 @@ void UpDownPushBuffer(General *self)
 	
 	if (!(PINB & (1 << 6)))							//Plus
 	{
-		
 		ASYNC(self->Active, plusPulse, 0);
-		self->graphics->frequency = self->Active->frequency;
-		ASYNC(self->graphics, updateGUI, 0);
+		ASYNC(self->graphics, setFrequency, (self->Active->frequency));	
 		if(self->Active->upDownPushFlag != 1){							//prevents several inputs entering if pressed rapidly
 			self->Active->upDownPushFlag = 1;
-			AFTER((SEC(5)/3), self->Active,  delayContPush, 0);
+			ASYNC( self->Active,  delayContPush, 0);
 		}
 	}
 	
 	else if (!(PINB & (1 << 7)))
-	{
-		ASYNC(self->Active, minusPulse, 0);			//Minus		
-		self->graphics->frequency = self->Active->frequency;
-		ASYNC(self->graphics, updateGUI, 0);
+	{											//Minus
+		ASYNC(self->Active, minusPulse, 0);		
+		ASYNC(self->graphics, setFrequency, (self->Active->frequency));	
 		if(self->Active->upDownPushFlag != 1){
 			self->Active->upDownPushFlag = 1;
-			AFTER((SEC(5)/3), self->Active,  delayContPush, 0);
+			ASYNC(self->Active,  delayContPush, 0);
 		}
 	}
 	
@@ -52,6 +49,7 @@ void UpDownPushBuffer(General *self)
 		}
 		 
 	}
+ASYNC(self->graphics, setFrequency, (self->Active->frequency));	
 	ASYNC(self->graphics, updateGUI, 0);
 	
 }
@@ -64,10 +62,10 @@ void LRBuffer(General *self){
 		{	
 			self->Active = self->pg1;						
 			
-			self->graphics->side = 0;
-			self->graphics->frequency = self->Active->frequency;			//put gui in line with pGen
+			self->graphics->side = 0;		//put gui in line with pGen
 			LCDDR13 = 0x0;				//side indicators indicate left
 			LCDDR18 = 0x1;
+			ASYNC(self->graphics, setFrequency, (self->Active->frequency));	
 			ASYNC(self->graphics, updateGUI, 0);
 
 		}
@@ -75,11 +73,17 @@ void LRBuffer(General *self){
 		{	
 			self->Active = self->pg2;					
 			
-			self->graphics->side = 4;
-			self->graphics->frequency = self->Active->frequency;			//put gui in line with pGen
+			self->graphics->side = 4;	//put gui in line with pGen
 			LCDDR13 = 0x1;				//side indicators indicate right
 			LCDDR18 = 0x0;
+			ASYNC(self->graphics, setFrequency, (self->Active->frequency));	
 			ASYNC(self->graphics, updateGUI, 0);
 
 		}	
+}
+
+void start(General *self){
+	
+	ASYNC(self->graphics, begin, 0);
+	
 }

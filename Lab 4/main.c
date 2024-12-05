@@ -30,10 +30,12 @@ pulseGen pg1 = initpulseGen(0, 0, &op);
 pulseGen pg2 = initpulseGen(1, 4, &op);
 GUI	graphics = initGUI(&pg1, &pg2);
 General Gnrl = initGeneral(&pg1, &pg2, &graphics);
+pg1.observer = &graphics;
+pg2.observer = &graphics;
 
 LCD_Init();
 
 INSTALL(&Gnrl, LRBuffer, IRQ_PCINT0);
 INSTALL(&Gnrl, UpDownPushBuffer, IRQ_PCINT1);
-return TINYTIMBER(&graphics, start, 0);
+return TINYTIMBER(&Gnrl, start, 0);
 }

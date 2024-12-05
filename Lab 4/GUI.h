@@ -25,7 +25,7 @@ typedef struct {
 
 #define initGUI(pg1, pg2){initObject(), 1, 0, 0, 0, pg1, pg2}
 
-void start (GUI *self);
+void begin (GUI *self);
 void arithmetic(GUI *x); // + och - på frekvensens hz
 void swap(GUI *x); //switches active generators
 void writeLong(GUI *x);
@@ -36,6 +36,8 @@ int sideControl(GUI *self);
 int increasePulse(int x);
 void updateGUI(GUI *x);
 void LCD_Init();					//INITITITIT
+void setFrequency(GUI *d, int x);
+void recieveContPush(GUI *d);
 
 #endif // FUNCTIONS_K
  

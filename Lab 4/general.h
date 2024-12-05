@@ -23,11 +23,12 @@ typedef struct {
 	int UpDownPushFlag; //prevents several inputs entering if pressed rapidly
 } General;
 
-#define initGeneral(pg1, pg2, g){initObject(), pg1, pg2, g, pg1}
+#define initGeneral(pg1, pg2, g){initObject(), pg1, pg2, g, pg1}			//GRAPHICS changed from g !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 void switchSides(General *self);
 void UpDownPushBuffer(General *self);
 void LRBuffer(General *self);
-//void start(General *self);
+void start(General *self);
+void notifyGuiContPush(General *self);
 
 #endif // FUNCTIONS_I

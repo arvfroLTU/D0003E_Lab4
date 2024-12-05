@@ -11,6 +11,7 @@
 #ifndef FUNCTIONS_H
 #define FUNCTIONS_H
 
+struct GUI;
 
 typedef struct {
 	Object super; 
@@ -19,8 +20,9 @@ typedef struct {
 	int saved;
 	int pulseCut;
 	int upDownPushFlag;
-	int print;
-	output *op;		
+	int firstPushFlag;
+	output *op;
+	struct GUI *observer;		
 } pulseGen;
 
 
@@ -32,6 +34,7 @@ void  outputPulse(pulseGen *self);
 void savePulse(pulseGen *self);
 void restorePulse(pulseGen *self);
 void delayContPush(pulseGen *self);
+void notifyContPush(pulseGen *self);
 
 
 #endif // FUNCTIONS_H

@@ -43,7 +43,7 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-#define STACKSIZE       96
+#define STACKSIZE       96			//default 96
 #define NMSGS           15
 #define NTHREADS        4
 

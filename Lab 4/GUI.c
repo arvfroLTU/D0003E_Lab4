@@ -76,6 +76,9 @@ void writeLong(GUI *self){
 	printAt(self->frequency, self->side);
 }
 
+void setFrequency(GUI *self, int x){
+	self->frequency = x;
+}
 
 void updateGUI(GUI *self){
 	if (self->frequency < 0){
@@ -89,7 +92,11 @@ void updateGUI(GUI *self){
 	printAt(self->frequency, self->side);
 }
 
-void start(GUI *self)
+void recieveContPush(GUI *d){
+	updateGUI(d);
+}
+
+void begin(GUI *self)
 {
 	printAt(self->frequency, self->side);
 	ASYNC(self->pg1, outputPulse, 0);
