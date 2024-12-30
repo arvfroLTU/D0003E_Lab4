@@ -9,6 +9,7 @@
 #include <avr/io.h>
 
 
+//babababababa
 
 void pinPulse(output *self, int x)
 {
